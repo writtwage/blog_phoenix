@@ -17,7 +17,14 @@ defmodule BlogPhoenix.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    # NOTE added this because the html generator says to
+    resources "/posts", PostController do
+      # NOTE need to clarigy why use a block here
+      post "/comment", PostController, :add_comment
+    end
+
   end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", BlogPhoenix do
