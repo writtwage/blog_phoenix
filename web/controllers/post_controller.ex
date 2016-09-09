@@ -1,6 +1,7 @@
 defmodule BlogPhoenix.PostController do
   use BlogPhoenix.Web, :controller
   alias BlogPhoenix.Post
+  require IEx
   # NOTE adding this because we want easy access to the controller as `Post`
   alias BlogPhoenix.Comment # ditto but for `Comment`
   # NOTE need to clarify what scrub_params does
@@ -63,6 +64,9 @@ defmodule BlogPhoenix.PostController do
   end
 
   def delete(conn, %{"id" => id}) do
+    # IEx.pry
+    # fetch the Post record identified by the id we get from the request
+    # parameters
     post = Repo.get!(Post, id)
 
     # Here we use delete! (with a bang) because we expect

@@ -7,8 +7,9 @@ defmodule BlogPhoenix.Post do
     field :body, :string
 
     # NOTE again, adding this because each post has many comments
-    has_many :comments, BlogPhoenix.Comment
-
+    # NOTE needed to add on_delete: :delete_all to make sure the comments
+    # associated with a post are deleted when the post is deleted
+    has_many :comments, BlogPhoenix.Comment, on_delete: :delete_all
     timestamps()
   end
 
