@@ -1,14 +1,16 @@
 defmodule BlogPhoenix.PostController do
   use BlogPhoenix.Web, :controller
-
   alias BlogPhoenix.Post
-  # NOTE adding this because we want easy acces to the controller
-  alias BlogPhoenix.Comment
+  # NOTE adding this because we want easy access to the controller as `Post`
+  alias BlogPhoenix.Comment # ditto but for `Comment`
   # NOTE need to clarify what scrub_params does
   plug :scrub_params, "comment" when action in [:add_comment]
 
   def index(conn, _params) do
-    posts = Repo.all(Post)
+    # posts = Repo.all(Post)
+    posts = Post
+    |> Post.count_comments
+    |> Repo.all
     render(conn, "index.html", posts: posts)
   end
 
@@ -31,9 +33,12 @@ defmodule BlogPhoenix.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Repo.get!(Post, id)
+    # TODO HOW THE *%$#% DO I PRELOAD WHATEVER THE (&(*^^)) NEEDS TO BE PRELOADED
+    # Repo.preload posts, :comments # TODO doesn't work
+    # post = Repo.get!(Post, id)    changeset = Comment.changeset(%Comment{})
+    post = Repo.get(Post, id) |> Repo.preload([:comments])
     changeset = Comment.changeset(%Comment{})
-    # NOTE not sure why changeset here
+    # NOTE what does changeset do?...
     render(conn, "show.html", post: post, changeset: changeset)
   end
 

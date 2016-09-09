@@ -6,7 +6,7 @@ defmodule BlogPhoenix.Repo.Migrations.CreatePost do
       add :title, :string
       add :body, :text
 
-      timestamps()
+      timestamps() # NOTE include () or not?
     end
 
   end
